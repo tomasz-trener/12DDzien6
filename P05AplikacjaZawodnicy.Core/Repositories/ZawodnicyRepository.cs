@@ -1,4 +1,5 @@
 ﻿using P05AplikacjaZawodnicy.Core.Domains;
+using P05AplikacjaZawodnicy.Core.Errors;
 using P05AplikacjaZawodnicy.Core.Tools;
 using System;
 using System.Collections.Generic;
@@ -31,7 +32,8 @@ namespace P05AplikacjaZawodnicy.Core.Repositories
                 ityZawodnik.Imie = (string)wynik[i][2];
                 ityZawodnik.Nazwisko = (string)wynik[i][3];
                 ityZawodnik.Kraj = (string)wynik[i][4];
-                ityZawodnik.DataUrodzenia = (DateTime)wynik[i][5];
+                if (wynik[i][5] != DBNull.Value)
+                    ityZawodnik.DataUrodzenia = (DateTime)wynik[i][5];
 
                 ityZawodnik.Wzrost = (int)wynik[i][6];
                 ityZawodnik.Waga = (int)wynik[i][7];
@@ -43,17 +45,23 @@ namespace P05AplikacjaZawodnicy.Core.Repositories
 
         }
 
-        public void EdytujZawodnika(Zawodnik z)
+        public int EdytujZawodnika(Zawodnik z)
         {
             string szablon = @"update zawodnicy set 
                                imie = '{0}', nazwisko = '{1}', kraj = '{2}', data_ur={3}, wzrost={4}, waga={5}
+                               output inserted.id_zawodnika
                                where id_zawodnika = {6}";
 
             string sql = 
                 string.Format(szablon, z.Imie, z.Nazwisko, z.Kraj, z.DataUrodzenia==null ? "null" : "'" + z.DataUrodzenia.Value.ToString("yyyyMMdd") + "'", z.Wzrost, z.Waga, z.Id);
 
             PolaczenieZBaza pzb = new PolaczenieZBaza();
-            pzb.WykonajPolecenieSQL(sql);
+            object[][] wynik = pzb.WykonajPolecenieSQL(sql);
+
+            if (wynik.Count() == 0)
+                throw new RowNotExistingException("Edycja rekordu, który nie istnieje");
+
+            return (int)wynik[0][0];
         }
 
         public int DodajZawodnika(Zawodnik z)
@@ -69,5 +77,14 @@ namespace P05AplikacjaZawodnicy.Core.Repositories
             return (int)wynik[0][0];
         }
 
+        public void UsunZawodnika(Zawodnik z)
+        {
+            string szablon = "delete zawodnicy where id_zawodnika = {0}";
+
+            string sql = string.Format(szablon, z.Id);
+
+            PolaczenieZBaza pzb = new PolaczenieZBaza();
+            pzb.WykonajPolecenieSQL(sql);
+        }
     }
 }

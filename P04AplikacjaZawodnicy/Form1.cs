@@ -1,5 +1,6 @@
 ﻿using P05AplikacjaZawodnicy.Core;
 using P05AplikacjaZawodnicy.Core.Domains;
+using P05AplikacjaZawodnicy.Core.Errors;
 using P05AplikacjaZawodnicy.Core.Repositories;
 using System;
 using System.Collections.Generic;
@@ -37,14 +38,23 @@ namespace P04AplikacjaZawodnicy
             //    dgvDane.Rows.Add(wynik[i]);
 
             ZawodnicyRepository zr = new ZawodnicyRepository();
-            Zawodnik[] zawodnicy= zr.PodajZawodnikow();
 
-            BindingSource bs = new BindingSource();
-            bs.AllowNew = true;
-            bs.DataSource = zawodnicy.ToList();
+            try
+            {
+                Zawodnik[] zawodnicy = zr.PodajZawodnikow();
 
-            dgvDane.DataSource = bs; // dgv widzi domyslnie wszystkie wlasciwosci 
-            dgvDane.Refresh();
+                BindingSource bs = new BindingSource();
+                bs.AllowNew = true;
+                bs.DataSource = zawodnicy.ToList();
+
+                dgvDane.DataSource = bs; // dgv widzi domyslnie wszystkie wlasciwosci 
+                dgvDane.Refresh();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Blad polaczenia z baza");
+            }
+            
 
 
         }
@@ -56,11 +66,33 @@ namespace P04AplikacjaZawodnicy
 
             ZawodnicyRepository zr = new ZawodnicyRepository();
 
-            if (zmieniany.Id > 0)
-                zr.EdytujZawodnika(zmieniany);
-            else
-                zmieniany.Id= zr.DodajZawodnika(zmieniany);
+            try
+            {
+                if (zmieniany.Id > 0)
+                    zr.EdytujZawodnika(zmieniany);
+                else
+                    zmieniany.Id = zr.DodajZawodnika(zmieniany);
+            }
+            catch (RowNotExistingException ex)
+            {
+                // MessageBox.Show(ex.Message, "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Edytujsz rekord, ktory nie istnieje", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Nieznany błąd", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
+        }
+
+
+
+        private void dgvDane_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
+        {
+            Zawodnik usuwany = (Zawodnik)e.Row.DataBoundItem;
+
+            ZawodnicyRepository zr = new ZawodnicyRepository();
+            zr.UsunZawodnika(usuwany);
         }
     }
 }

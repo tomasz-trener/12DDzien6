@@ -51,6 +51,8 @@
             this.dgvDane.Size = new System.Drawing.Size(431, 397);
             this.dgvDane.TabIndex = 1;
             this.dgvDane.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDane_CellEndEdit);
+   
+            this.dgvDane.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.dgvDane_UserDeletingRow);
             // 
             // Form1
             // 

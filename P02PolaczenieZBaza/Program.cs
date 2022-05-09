@@ -11,7 +11,7 @@ namespace P02PolaczenieZBaza
         static void Main(string[] args)
         {
             PolaczenieZBaza pzb = new PolaczenieZBaza();
-            object[][] wynik= pzb.WykonajPolecenieSQL("select * from miasta");
+            var wynik= pzb.WykonajPolecenieSQL("select * from miasta");
 
             for (int i = 0; i < wynik.Length; i++)
                 Console.WriteLine(string.Join(" ", wynik[i]));
