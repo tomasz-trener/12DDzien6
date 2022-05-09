@@ -19,6 +19,7 @@ namespace P07AplikacjaZawodnicyKonsolowa
 
             Console.ReadKey();
 
+            //https://github.com/tomasz-trener/12DDzien6
         }
     }
 }

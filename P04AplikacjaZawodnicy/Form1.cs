@@ -18,6 +18,9 @@ namespace P04AplikacjaZawodnicy
         public Form1()
         {
             InitializeComponent();
+
+            // żeby datagridview miał mozliwosc dodwania i usuwania rekordow 
+            // musimy dodac warstwe posredniczaca pomiedzy danymi a grdview 
         }
 
         private void btnWczytaj_Click(object sender, EventArgs e)
@@ -36,9 +39,27 @@ namespace P04AplikacjaZawodnicy
             ZawodnicyRepository zr = new ZawodnicyRepository();
             Zawodnik[] zawodnicy= zr.PodajZawodnikow();
 
-            dgvDane.DataSource = zawodnicy; // dgv widzi domyslnie wszystkie wlasciwosci 
-            
+            BindingSource bs = new BindingSource();
+            bs.AllowNew = true;
+            bs.DataSource = zawodnicy.ToList();
 
+            dgvDane.DataSource = bs; // dgv widzi domyslnie wszystkie wlasciwosci 
+            dgvDane.Refresh();
+
+
+        }
+
+        private void dgvDane_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            int edytowanyWiersz = e.RowIndex;
+            Zawodnik zmieniany = (Zawodnik)dgvDane.Rows[edytowanyWiersz].DataBoundItem;
+
+            ZawodnicyRepository zr = new ZawodnicyRepository();
+
+            if (zmieniany.Id > 0)
+                zr.EdytujZawodnika(zmieniany);
+            else
+                zmieniany.Id= zr.DodajZawodnika(zmieniany);
 
         }
     }

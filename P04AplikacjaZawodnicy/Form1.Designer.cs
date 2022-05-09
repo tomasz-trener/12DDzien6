@@ -50,12 +50,13 @@
             this.dgvDane.Name = "dgvDane";
             this.dgvDane.Size = new System.Drawing.Size(431, 397);
             this.dgvDane.TabIndex = 1;
+            this.dgvDane.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDane_CellEndEdit);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(466, 450);
+            this.ClientSize = new System.Drawing.Size(457, 450);
             this.Controls.Add(this.dgvDane);
             this.Controls.Add(this.btnWczytaj);
             this.Name = "Form1";
