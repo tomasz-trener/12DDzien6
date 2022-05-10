@@ -32,7 +32,7 @@ namespace P05AplikacjaZawodnicy.Core.Tools
         }
 
         
-        public object[][] WykonajPolecenieSQL(string sql)
+        public object[][] WykonajPolecenieSQL(string sql, params SqlParameter[] parametry)
         {
             SqlConnection connection; // sluzy do naziwaznia komunikacji z baza
             SqlCommand command; // przechowuje polecenia SQL 
@@ -41,6 +41,9 @@ namespace P05AplikacjaZawodnicy.Core.Tools
             connection = new SqlConnection(connectionString);
 
             command = new SqlCommand(sql, connection);
+
+            foreach (var p in parametry)
+                command.Parameters.Add(p);
 
             connection.Open();
 

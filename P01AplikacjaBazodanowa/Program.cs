@@ -20,7 +20,18 @@ namespace P01AplikacjaBazodanowa
            // string connectionString = "Data Source=.;Initial Catalog=A_Zawodnicy;integrated scurity=true"; // windows auth
             connection = new SqlConnection(connectionString);
 
-            command = new SqlCommand("SELECT * FROM zawodnicy", connection);
+             string sql = "SELECT * FROM zawodnicy where kraj = @kraj";
+            string kraj = "pol' or 1=1--";
+           
+            //string sql = $"SELECT * FROM zawodnicy where kraj = '{kraj}'";
+
+            command = new SqlCommand(sql, connection);
+
+            SqlParameter sqlParameter = new SqlParameter();
+            sqlParameter.ParameterName = "@kraj";
+            sqlParameter.Value = kraj;
+
+            command.Parameters.Add(sqlParameter);
 
             connection.Open();
 
@@ -28,8 +39,8 @@ namespace P01AplikacjaBazodanowa
 
             while (sqlDataReader.Read())
             {
-                string wynik = (string)sqlDataReader.GetValue(2) + " " + (string)sqlDataReader.GetValue(3) + " " +
-                     (DateTime)sqlDataReader.GetValue(5);
+                string wynik = (string)sqlDataReader.GetValue(2) + " " + (string)sqlDataReader.GetValue(3);
+                    
 
                 Console.WriteLine(wynik);
             }
