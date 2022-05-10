@@ -23,7 +23,7 @@ namespace P05AplikacjaZawodnicy.Core.Repositories
             object[][] wynik = pzb.WykonajPolecenieSQL(sql, new System.Data.SqlClient.SqlParameter() { ParameterName = "@wartosc", Value = "%" + wartosc + "%" });
 
             // transformacja object[][] na Zawodnik[] 
-            return TransformujZawodnikow(wynik);
+            return TransformujZawodnikow(wynik); 
         }
 
         public Zawodnik[] PodajZawodnikowPoKraju(string kraj = null, int strona=1, int ile=5, string sortowanie="id_zawodnika")  
