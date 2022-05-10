@@ -26,11 +26,14 @@ namespace P05AplikacjaZawodnicy.Core.Repositories
             return TransformujZawodnikow(wynik);
         }
 
-        public Zawodnik[] PodajZawodnikowPoKraju(string kraj = null)  
+        public Zawodnik[] PodajZawodnikowPoKraju(string kraj = null, int strona=1, int ile=5, string sortowanie="id_zawodnika")  
         {
             PolaczenieZBaza pzb = new PolaczenieZBaza();
 
-            string sql = "SELECT id_zawodnika, id_trenera, imie, nazwisko, kraj, data_ur, wzrost, waga FROM zawodnicy";
+            string sql = $@"SELECT id_zawodnika, id_trenera, imie, nazwisko, kraj, data_ur, wzrost, waga FROM zawodnicy
+                           ORDER BY {sortowanie}
+                           OFFSET     {(strona-1)*ile} ROWS       -- skip 10 rows
+                           FETCH NEXT {ile} ROWS ONLY; -- take 10 rows";
             if (kraj != null)
                 sql += " where kraj like @wartosc";
             object[][] wynik = pzb.WykonajPolecenieSQL(sql, new System.Data.SqlClient.SqlParameter() { ParameterName = "@wartosc", Value = "%" + kraj + "%" });

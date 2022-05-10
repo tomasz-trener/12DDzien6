@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P06AplikacjaZawodnicyAltern
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P07AplikacjaZawodnicyKonsolowa", "P07AplikacjaZawodnicyKonsolowa\P07AplikacjaZawodnicyKonsolowa.csproj", "{2951774F-1162-4A01-90A9-C8769E8BDDDA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P08AplikacjaZawodnicy.Core.Test", "P08AplikacjaZawodnicy.Core.Test\P08AplikacjaZawodnicy.Core.Test.csproj", "{3C5C32C6-F208-46B7-B298-6696AEF96A6D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{2951774F-1162-4A01-90A9-C8769E8BDDDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2951774F-1162-4A01-90A9-C8769E8BDDDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2951774F-1162-4A01-90A9-C8769E8BDDDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C5C32C6-F208-46B7-B298-6696AEF96A6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C5C32C6-F208-46B7-B298-6696AEF96A6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C5C32C6-F208-46B7-B298-6696AEF96A6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C5C32C6-F208-46B7-B298-6696AEF96A6D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
