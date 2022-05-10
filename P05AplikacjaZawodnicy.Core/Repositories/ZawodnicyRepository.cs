@@ -26,7 +26,7 @@ namespace P05AplikacjaZawodnicy.Core.Repositories
             return TransformujZawodnikow(wynik);
         }
 
-        public Zawodnik[] PodajZawodnikowPoKraju(string kraj = null) 
+        public Zawodnik[] PodajZawodnikowPoKraju(string kraj = null)  
         {
             PolaczenieZBaza pzb = new PolaczenieZBaza();
 
