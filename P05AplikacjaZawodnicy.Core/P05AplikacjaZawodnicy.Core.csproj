@@ -52,6 +52,7 @@
     <Compile Include="Domains\Zawodnik.cs" />
     <Compile Include="Errors\RowNotExistingException.cs" />
     <Compile Include="Operations\GenerowanieRaportuOperation.cs" />
+    <Compile Include="Repositories\ZawodnicyHistoriaRepository.cs" />
     <Compile Include="Tools\PolaczenieZBaza.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ZawodnicyRepository.cs" />

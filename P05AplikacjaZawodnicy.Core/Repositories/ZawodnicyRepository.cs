@@ -30,12 +30,13 @@ namespace P05AplikacjaZawodnicy.Core.Repositories
         {
             PolaczenieZBaza pzb = new PolaczenieZBaza();
 
+            string warunekWhere = kraj != null ? "where kraj like @wartosc" : "";
             string sql = $@"SELECT id_zawodnika, id_trenera, imie, nazwisko, kraj, data_ur, wzrost, waga FROM zawodnicy
+                           {warunekWhere}
                            ORDER BY {sortowanie}
                            OFFSET     {(strona-1)*ile} ROWS       -- skip 10 rows
                            FETCH NEXT {ile} ROWS ONLY; -- take 10 rows";
-            if (kraj != null)
-                sql += " where kraj like @wartosc";
+          
             object[][] wynik = pzb.WykonajPolecenieSQL(sql, new System.Data.SqlClient.SqlParameter() { ParameterName = "@wartosc", Value = "%" + kraj + "%" });
 
             // transformacja object[][] na Zawodnik[] 
@@ -79,6 +80,9 @@ namespace P05AplikacjaZawodnicy.Core.Repositories
             PolaczenieZBaza pzb = new PolaczenieZBaza();
             object[][] wynik = pzb.WykonajPolecenieSQL(sql);
 
+            ZawodnicyHistoriaRepository zhr = new ZawodnicyHistoriaRepository();
+            zhr.DodajHistorieZawodnika(z,TypOperacjiBazodanowej.Edycja);
+
             if (wynik.Count() == 0)
                 throw new RowNotExistingException("Edycja rekordu, który nie istnieje");
 
@@ -95,7 +99,13 @@ namespace P05AplikacjaZawodnicy.Core.Repositories
 
             PolaczenieZBaza pzb = new PolaczenieZBaza();
             object[][] wynik = pzb.WykonajPolecenieSQL(sql);
-            return (int)wynik[0][0];
+            int idNowoDodanegoZawodnika = (int)wynik[0][0];
+            z.Id = idNowoDodanegoZawodnika;
+
+            ZawodnicyHistoriaRepository zhr = new ZawodnicyHistoriaRepository();
+            zhr.DodajHistorieZawodnika(z, TypOperacjiBazodanowej.Dodanie);
+
+            return idNowoDodanegoZawodnika;
         }
 
         public void UsunZawodnika(Zawodnik z)
@@ -106,6 +116,9 @@ namespace P05AplikacjaZawodnicy.Core.Repositories
 
             PolaczenieZBaza pzb = new PolaczenieZBaza();
             pzb.WykonajPolecenieSQL(sql);
+
+            ZawodnicyHistoriaRepository zhr = new ZawodnicyHistoriaRepository();
+            zhr.DodajHistorieZawodnika(z, TypOperacjiBazodanowej.Usuwanie);
         }
 
         public string[] PodajKraje()
