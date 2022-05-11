@@ -49,9 +49,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domains\GrupaKraj.cs" />
+    <Compile Include="Domains\Uzytkownik.cs" />
     <Compile Include="Domains\Zawodnik.cs" />
     <Compile Include="Errors\RowNotExistingException.cs" />
     <Compile Include="Operations\GenerowanieRaportuOperation.cs" />
+    <Compile Include="Repositories\UzytkownicyRepository.cs" />
     <Compile Include="Repositories\ZawodnicyHistoriaRepository.cs" />
     <Compile Include="Tools\PolaczenieZBaza.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

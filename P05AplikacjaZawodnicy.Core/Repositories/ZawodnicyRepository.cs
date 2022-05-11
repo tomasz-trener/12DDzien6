@@ -70,7 +70,7 @@ namespace P05AplikacjaZawodnicy.Core.Repositories
         }
 
 
-        public int EdytujZawodnika(Zawodnik z)
+        public int EdytujZawodnika(Zawodnik z, Uzytkownik zalogowany)
         {
             string szablon = @"update zawodnicy set imie = '{0}', nazwisko = '{1}', kraj = '{2}', data_ur={3}, wzrost={4}, waga={5}                               output inserted.id_zawodnika                             where id_zawodnika = {6}";
 
@@ -81,7 +81,7 @@ namespace P05AplikacjaZawodnicy.Core.Repositories
             object[][] wynik = pzb.WykonajPolecenieSQL(sql);
 
             ZawodnicyHistoriaRepository zhr = new ZawodnicyHistoriaRepository();
-            zhr.DodajHistorieZawodnika(z,TypOperacjiBazodanowej.Edycja);
+            zhr.DodajHistorieZawodnika(z,TypOperacjiBazodanowej.Edycja, zalogowany.Id);
 
             if (wynik.Count() == 0)
                 throw new RowNotExistingException("Edycja rekordu, który nie istnieje");
@@ -89,7 +89,7 @@ namespace P05AplikacjaZawodnicy.Core.Repositories
             return (int)wynik[0][0];
         }
 
-        public int DodajZawodnika(Zawodnik z)
+        public int DodajZawodnika(Zawodnik z, Uzytkownik zalogowany)
         {
             string szablon = @"insert into zawodnicy
                 output inserted.id_zawodnika
@@ -103,12 +103,12 @@ namespace P05AplikacjaZawodnicy.Core.Repositories
             z.Id = idNowoDodanegoZawodnika;
 
             ZawodnicyHistoriaRepository zhr = new ZawodnicyHistoriaRepository();
-            zhr.DodajHistorieZawodnika(z, TypOperacjiBazodanowej.Dodanie);
+            zhr.DodajHistorieZawodnika(z, TypOperacjiBazodanowej.Dodanie, zalogowany.Id);
 
             return idNowoDodanegoZawodnika;
         }
-
-        public void UsunZawodnika(Zawodnik z)
+         
+        public void UsunZawodnika(Zawodnik z, Uzytkownik zalogowany)
         {
             string szablon = "delete zawodnicy where id_zawodnika = {0}";
 
@@ -118,8 +118,10 @@ namespace P05AplikacjaZawodnicy.Core.Repositories
             pzb.WykonajPolecenieSQL(sql);
 
             ZawodnicyHistoriaRepository zhr = new ZawodnicyHistoriaRepository();
-            zhr.DodajHistorieZawodnika(z, TypOperacjiBazodanowej.Usuwanie);
+            zhr.DodajHistorieZawodnika(z, TypOperacjiBazodanowej.Usuwanie, zalogowany.Id);
         }
+
+  
 
         public string[] PodajKraje()
         {
