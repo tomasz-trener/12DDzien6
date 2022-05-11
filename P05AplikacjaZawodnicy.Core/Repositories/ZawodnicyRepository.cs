@@ -72,10 +72,10 @@ namespace P05AplikacjaZawodnicy.Core.Repositories
 
         public int EdytujZawodnika(Zawodnik z, Uzytkownik zalogowany)
         {
-            string szablon = @"update zawodnicy set imie = '{0}', nazwisko = '{1}', kraj = '{2}', data_ur={3}, wzrost={4}, waga={5}                               output inserted.id_zawodnika                             where id_zawodnika = {6}";
+            string szablon = @"update zawodnicy set imie = '{0}', nazwisko = '{1}', kraj = '{2}', data_ur={3}, wzrost={4}, waga={5} , id_trenera={6}   output inserted.id_zawodnika    where id_zawodnika = {7}";
 
             string sql =
-                string.Format(szablon, z.Imie, z.Nazwisko, z.Kraj, z.DataUrodzenia == null ? "null" : "'" + z.DataUrodzenia.Value.ToString("yyyyMMdd") + "'", z.Wzrost, z.Waga, z.Id);
+                string.Format(szablon, z.Imie, z.Nazwisko, z.Kraj, z.DataUrodzenia == null ? "null" : "'" + z.DataUrodzenia.Value.ToString("yyyyMMdd") + "'", z.Wzrost, z.Waga, z.Id_trenera == 0 ? "null" : z.Id_trenera.ToString(), z.Id);
 
             PolaczenieZBaza pzb = new PolaczenieZBaza();
             object[][] wynik = pzb.WykonajPolecenieSQL(sql);
@@ -93,9 +93,9 @@ namespace P05AplikacjaZawodnicy.Core.Repositories
         {
             string szablon = @"insert into zawodnicy
                 output inserted.id_zawodnika
-                values (null,'{0}','{1}','{2}',{3},{4},{5})";
+                values (null,'{0}','{1}','{2}',{3},{4},{5},{6})";
 
-            string sql = string.Format(szablon, z.Imie, z.Nazwisko, z.Kraj, z.DataUrodzenia == null ? "null" : "'" + z.DataUrodzenia.Value.ToString("yyyyMMdd") + "'", z.Wzrost, z.Waga);
+            string sql = string.Format(szablon, z.Imie, z.Nazwisko, z.Kraj, z.DataUrodzenia == null ? "null" : "'" + z.DataUrodzenia.Value.ToString("yyyyMMdd") + "'", z.Wzrost, z.Waga,z.Id_trenera==0?"null":z.Id_trenera.ToString());
 
             PolaczenieZBaza pzb = new PolaczenieZBaza();
             object[][] wynik = pzb.WykonajPolecenieSQL(sql);

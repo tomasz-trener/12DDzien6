@@ -12,5 +12,15 @@ namespace P05AplikacjaZawodnicy.Core.Domains
         public string Imie;
         public string Nazwisko;
         public DateTime? DataUrodzenia;
+
+        public string WartoscWyswietlana { 
+            get 
+            {
+                if (Id > 0)
+                    return Imie + " " + Nazwisko;
+                else
+                    return "Brak";
+            } 
+        }
     }
 }

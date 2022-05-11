@@ -16,7 +16,7 @@ namespace P05AplikacjaZawodnicy.Core.Repositories
         {
             PolaczenieZBaza pzb = new PolaczenieZBaza();
 
-            string sql = "SELECT id_trenera, imie_t, nazwisko_t, data_ur_t, FROM trenerzy";
+            string sql = "SELECT id_trenera, imie_t, nazwisko_t, data_ur_t FROM trenerzy";
             if (wartosc != null)
                 sql += " where imie_t like @wartosc or nazwisko_t like @wartosc";
 
@@ -30,7 +30,7 @@ namespace P05AplikacjaZawodnicy.Core.Repositories
         {
             PolaczenieZBaza pzb = new PolaczenieZBaza();
 
-            string sql = "SELECT id_trenera, imie_t, nazwisko_t, data_ur_t, FROM trenerzy where id_trenera=@wartosc";
+            string sql = "SELECT id_trenera, imie_t, nazwisko_t, data_ur_t FROM trenerzy where id_trenera=@wartosc";
 
             object[][] wynik = pzb.WykonajPolecenieSQL(sql, new System.Data.SqlClient.SqlParameter() { ParameterName = "@wartosc", Value = id });
 
