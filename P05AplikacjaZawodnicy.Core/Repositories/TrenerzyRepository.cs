@@ -25,7 +25,19 @@ namespace P05AplikacjaZawodnicy.Core.Repositories
             // transformacja object[][] na Zawodnik[] 
             return TransformujTrenerow(wynik); 
         }
-    
+
+        public Trener PodajTrenera(int id)
+        {
+            PolaczenieZBaza pzb = new PolaczenieZBaza();
+
+            string sql = "SELECT id_trenera, imie_t, nazwisko_t, data_ur_t, FROM trenerzy where id_trenera=@wartosc";
+
+            object[][] wynik = pzb.WykonajPolecenieSQL(sql, new System.Data.SqlClient.SqlParameter() { ParameterName = "@wartosc", Value = id });
+
+            // transformacja object[][] na Trener[] ale wiemy, ze z bazy przyjdzie tylko jeden 
+            return TransformujTrenerow(wynik)[0];
+        }
+
         private Trener[] TransformujTrenerow(object [][] wynik)
         {
             Trener[] trenerzy = new Trener[wynik.Length];
