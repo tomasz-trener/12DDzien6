@@ -4,7 +4,7 @@ namespace P05AplikacjaZawodnicy.Core.Domains
 {
     public class Zawodnik
     {
-        public int Id;
+        public int Id { get; set; }
         public int? Id_trenera;
         public string Imie { get; set; }
         public string Nazwisko { get; set; }
@@ -12,6 +12,8 @@ namespace P05AplikacjaZawodnicy.Core.Domains
         public DateTime? DataUrodzenia { get; set; }
         public int Wzrost { get; set; }
         public int Waga { get; set; }
+
+        public string ImieNazwisko { get { return Imie + " " + Nazwisko; } }
 
        
     }

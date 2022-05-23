@@ -93,9 +93,9 @@ namespace P05AplikacjaZawodnicy.Core.Repositories
         {
             string szablon = @"insert into zawodnicy
                 output inserted.id_zawodnika
-                values (null,'{0}','{1}','{2}',{3},{4},{5},{6})";
+                values ({0},'{1}','{2}','{3}',{4},{5},{6})";
 
-            string sql = string.Format(szablon, z.Imie, z.Nazwisko, z.Kraj, z.DataUrodzenia == null ? "null" : "'" + z.DataUrodzenia.Value.ToString("yyyyMMdd") + "'", z.Wzrost, z.Waga,z.Id_trenera==0?"null":z.Id_trenera.ToString());
+            string sql = string.Format(szablon, z.Id_trenera == 0 ? "null" : z.Id_trenera.ToString(), z.Imie, z.Nazwisko, z.Kraj, z.DataUrodzenia == null ? "null" : "'" + z.DataUrodzenia.Value.ToString("yyyyMMdd") + "'", z.Wzrost, z.Waga);
 
             PolaczenieZBaza pzb = new PolaczenieZBaza();
             object[][] wynik = pzb.WykonajPolecenieSQL(sql);
