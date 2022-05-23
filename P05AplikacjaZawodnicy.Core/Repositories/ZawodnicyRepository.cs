@@ -26,6 +26,18 @@ namespace P05AplikacjaZawodnicy.Core.Repositories
             return TransformujZawodnikow(wynik); 
         }
 
+        public Zawodnik PodajZawodnika(int id)
+        {
+            PolaczenieZBaza pzb = new PolaczenieZBaza();
+
+            string sql = "SELECT id_zawodnika, id_trenera, imie, nazwisko, kraj, data_ur, wzrost, waga FROM zawodnicy where id_zawodnika =@wartosc";
+
+            object[][] wynik = pzb.WykonajPolecenieSQL(sql, new System.Data.SqlClient.SqlParameter() { ParameterName = "@wartosc", Value = id });
+
+            // transformacja object[][] na Zawodnik[] 
+            return TransformujZawodnikow(wynik)[0];
+        }
+
         public Zawodnik[] PodajZawodnikowPoKraju(string kraj = null, int strona=1, int ile=5, string sortowanie="id_zawodnika")  
         {
             PolaczenieZBaza pzb = new PolaczenieZBaza();
